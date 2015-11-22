@@ -14,11 +14,9 @@ MAIN_PAGE_HTML = """\
 """
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write("working on it")
+        self.response.write(MAIN_PAGE_HTML)
 
 class BinaryConvert(webapp2.RequestHandler):
-    def get(mew):
-        mew.response.write(MAIN_PAGE_HTML)
     def post(self):
         self.response.write('<html><body>In binary!:<pre>')
         self.response.write(cgi.escape(self.request.get('content')))
