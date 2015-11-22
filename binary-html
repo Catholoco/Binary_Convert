@@ -1,7 +1,7 @@
 import cgi
 import webapp2
 
-MAIN_PAGE_HTML = """\
+BinaryPageHTML = """\
 <html>
     <body> "Input a number you want to convert to binary!"
         <form action="/binary_output" method="post">
@@ -12,20 +12,43 @@ MAIN_PAGE_HTML = """\
 </html>
 
 """
-class MainHandler(webapp2.RequestHandler):
+MAIN_PAGE_HTML = """\
+<html>
+    <body>
+        <form action="/binary_input" method="get">
+            <div><input type="submit" value="Binary Converter"></div>     
+        </form>  
+    </body>
+</html>
+
+"""
+
+class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.write(MAIN_PAGE_HTML)
 
-class BinaryConvert(webapp2.RequestHandler):
+
+class BinaryConvertIn(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(BinaryPageHTML)
+
+
+class BinaryConvertOut(webapp2.RequestHandler):
     def post(self):
-        self.response.write('<html><body>In binary!:<pre>')
-        self.response.write(cgi.escape(self.request.get('content')))
+        self.response.write(self.request.get('content') + ' ' + 'in binary is:')
+        self.response.write('<html><body><pre>')
+        #self.response.write(cgi.escape(self.request.get('content')))
+        temp = int(self.request.get('content'))
+        temp = bin(temp)
+
+        self.response.write(temp[2:])
         self.response.write('</pre></body></html>')
         
         
         
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-    ('/binary_output', BinaryConvert),
+    ('/', MainPage),
+    ('/binary_input', BinaryConvertIn),
+    ('/binary_output', BinaryConvertOut),
 ], debug=True)
